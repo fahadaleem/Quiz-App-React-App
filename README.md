@@ -7,6 +7,7 @@
 ### - Button disabled after choosing the answer
 ### - Top Progress bar shows the progress of the quiz
 ### - Bottom progress bar predicted the minimum, maximum score a user can get. Also, the current score is showing. 
+### - Question generated randomly
 ### - Options generated randomly
 
 # Deployed Link: 

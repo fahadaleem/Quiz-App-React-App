@@ -10,8 +10,35 @@ const QuizContext = createContext();
 
 const QuizContextProvider = (props)=>{
 
+
+
+
+    const generateRandomQues = (arr)=>{
+        const array = [];
+        for(let i=0;i<arr.length;)
+        {
+          const randomeNo = Math.floor((Math.random()*arr.length))
+    
+          if(!array.includes(arr[randomeNo]))
+          {
+            array.push(arr[randomeNo]);
+            i++;
+          }
+          else if(array.includes)
+          {
+            continue;
+          }
+          
+        }
+        console.log(array);
+
+        return array;
+    }
+
+    const randomeQuestionsArr = generateRandomQues(Data)
+
     let [count, setCount] = useState(0);
-    const [queData, setQueData] = useState(Data[count])
+    const [queData, setQueData] = useState(randomeQuestionsArr[count])
     const [question, setQuestion] = useState('');
     const [correctAns, setCorrectAns] = useState("");
     const [options, setOptions] = useState([]);
@@ -174,6 +201,7 @@ const QuizContextProvider = (props)=>{
     console.log(answeredQue);
    
     async function init (){
+
        const options = await  getOption();
        setOptions(options)
         const question = await getQuestion();
