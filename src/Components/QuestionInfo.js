@@ -9,8 +9,8 @@ const QuestionInfo = ()=>{
     return(
         <div>
             <h1 id="question-count">Question {count+1} of 20</h1>
-            <h2>{category}</h2>
-            <div className={`${difficulty}`}>
+            <h2 id="category">{category}</h2>
+            <div className={`difficuily-level ${difficulty}`}>
             <i className="fa fa-star" aria-hidden="true"></i>
             <i className="fa fa-star" aria-hidden="true"></i>
             <i className="fa fa-star" aria-hidden="true"></i>

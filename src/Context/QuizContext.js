@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react"
 import { createContext } from "react"
 import Data from "../Data/Questions.json" 
-
+import Result from "../Components/Result"
 
 const QuizContext = createContext();
 
@@ -23,25 +23,21 @@ const QuizContextProvider = (props)=>{
     const [currentScore, setCurrentScore] = useState(0);
     const [allCorrectScore, setAllCorrectScore] = useState(0);
     const [allWrongScore, setAllWrongScore] = useState(0);
-
-
+    let [answeredQue, setAnsweredQue] = useState(0)
+    let [isQuizEnd, setQuizEnd] = useState(false)
     const calculateCurrentScore = ()=>{
-        if(count===0)
-        {
-            return false
-        }
-        const totalQue = count;
-        console.log("score", score);
-        console.log("total", totalQue)
+       
+        const totalQue = count+1;
         const percentage = (score/totalQue)*100;
         setCurrentScore(percentage);
     }
 
     const calculateAllCorrectScore = ()=>{
-        const remainingQues = 20-count;
+        
+        
+        const remainingQues = 20-answeredQue;
         let totalScore = remainingQues + score;
         const percentage = (totalScore/20)*100
-        console.log("all correct", percentage)
         setAllCorrectScore(percentage);
     }
 
@@ -103,6 +99,14 @@ const QuizContextProvider = (props)=>{
     }
 
     const nextQuestionHandler = ()=>{
+
+        if(count===19)
+        {
+            setQuizEnd(true);
+            return false
+        }
+        if(isQuizEnd!=true)
+        {
         if(checkAnsMessage==="")
         {
             alert("Please select one option");
@@ -115,30 +119,36 @@ const QuizContextProvider = (props)=>{
         setCorrectAns(correctAns);
         setIsDisabled({status:false, class:"none"});
         setCheckAnsMeesage("")
-
+    }
     }
 
     
     const checkAnsHandler = (e)=>{
-        calculateCurrentScore();
-        calculateAllCorrectScore();
-        calculateAllWrongScore();
+       
 
-
+        answeredQue = answeredQue+1;
+        setAnsweredQue(answeredQue);
+        
         const selectAns = e.target.textContent
         if(correctAns===selectAns)
         {
             setCheckAnsMeesage("correct!")
             score=score+1;
             setScore(score)
+           
         }
         else 
         {
             setCheckAnsMeesage("Incorrect!")
         }
         setIsDisabled({status:true, class:"select-ans"})
+        calculateCurrentScore();
+        calculateAllCorrectScore();
+        calculateAllWrongScore();
 
     }
+
+    console.log(answeredQue);
    
     async function init (){
        const options = await  getOption();
@@ -155,13 +165,13 @@ const QuizContextProvider = (props)=>{
 
     useEffect(() => {
       init();
+        calculateAllCorrectScore();
+        calculateAllWrongScore();
     }, [count]);
 
     return(
-        <QuizContext.Provider value={{count, question, category, difficulty, options, correctAns, isDisabled, setIsDisabled,score,  setScore, checkAnsHandler, checkAnsMessage, currentScore, allCorrectScore, allWrongScore}}>
-        {props.children}
-        <button onClick={nextQuestionHandler} >Click</button>
-       
+        <QuizContext.Provider value={{count, question, category, difficulty, options, correctAns, isDisabled, setIsDisabled,score,  setScore, checkAnsHandler, checkAnsMessage, currentScore, allCorrectScore, allWrongScore, nextQuestionHandler}}>
+        {!isQuizEnd?props.children:<Result score={currentScore}/>}
         </QuizContext.Provider>
     )
 }

@@ -6,7 +6,7 @@ const TopProgressBar = (props)=>{
     const {count} = useContext(QuizContext);
     let [progressPercentage, setProgressPercentage] = useState(0);
     const calculateProgress = ()=>{
-        const percentage = ((count+1)/20)*100;
+        const percentage = ((count)/20)*100;
         setProgressPercentage(percentage);
         console.log(percentage)
     }
@@ -16,8 +16,8 @@ const TopProgressBar = (props)=>{
     }, [count]);
 
     return (
-        <div id="progress-bar" style={{width:`${progressPercentage}%`}}>
-            <div id="progress-percent">{progressPercentage}%</div>
+        <div id="progress-bar" style={{width:`${progressPercentage}%`, visibility:"visible"}}>
+            <div id="progress-percent">{progressPercentage>0?`${progressPercentage}%`:""}</div>
         </div>
     )
 
