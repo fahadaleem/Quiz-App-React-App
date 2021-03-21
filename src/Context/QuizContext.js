@@ -64,15 +64,38 @@ const QuizContextProvider = (props)=>{
     const getOption = ()=>{
         const options = [queData.correct_answer, ...queData.incorrect_answers]
 
-        const filteredOptions = options.map(element=>{
+        let filteredOptions = options.map(element=>{
             let op = element.replace(/%20/g," ");
             op = op.replace(/%27/,".")
             op = op.replace(/%24/,"$")
             op = op.replace(/%2C/,",")
-
-
             return op
         })
+
+
+        const generateRandom = (arr)=>{
+            const array = [];
+            for(let i=0;i<arr.length;)
+            {
+              const randomeNo = Math.floor((Math.random()*arr.length))
+        
+              if(!array.includes(arr[randomeNo]))
+              {
+                array.push(arr[randomeNo]);
+                i++;
+              }
+              else if(array.includes)
+              {
+                continue;
+              }
+              
+            }
+            
+            return array;
+          }
+
+          filteredOptions = generateRandom(filteredOptions);
+
         return filteredOptions;
     }
 
